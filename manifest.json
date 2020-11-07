@@ -2,22 +2,28 @@
 	"name": "Twitch Chat pronouns",
 	"version": "0.1.0",
 	"description": "Add Pronouns to Twitch Chat",
-	"content_scripts": [{
-		"matches": [
-			"https://www.twitch.tv/*",
-			"https://twitch.tv/*"
-		],
-		"css": [
-			"src/css/content.css"
-		],
-		"js": [
-			"src/js/axios.js",
-			"src/js/jquery.js",
-			"src/js/content.js"
-		],
-		"run_at": "document_end",
-		"all_frames": true
-	}],
-	"permissions": [ "activeTab", "tabs", "storage" ],
+	"content_scripts": [
+		{
+			"matches": [
+				"https://www.twitch.tv/*",
+				"https://twitch.tv/*"
+			],
+			"css": [
+				"src/css/content.css"
+			],
+			"js": [
+				"src/js/axios.js",
+				"src/js/jquery.js",
+				"src/js/content.js"
+			],
+			"run_at": "document_end",
+			"all_frames": true
+		}
+	],
+	"permissions": [
+		"activeTab",
+		"tabs",
+		"storage"
+	],
 	"manifest_version": 2
 }
