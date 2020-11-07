@@ -1,7 +1,7 @@
 /* jshint esversion: 8 */
 (async function () {
     "use strict";
-    const baseUri = "https://local.alejo.io:4430/";
+    const baseUri = "https://delta.alejo.io/";
     async function getPronouns() {
         var res = await axios.get(baseUri + "pronouns");
         var p = {};
