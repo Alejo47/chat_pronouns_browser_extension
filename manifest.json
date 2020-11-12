@@ -6,15 +6,14 @@
 		{
 			"matches": [
 				"https://www.twitch.tv/*",
-				"https://twitch.tv/*"
+				"https://twitch.tv/*",
+				"https://dashboard.twitch.tv/u/*/stream-manager"
 			],
 			"css": [
 				"src/css/content.css"
 			],
 			"js": [
-				"src/js/axios.js",
-				"src/js/jquery.js",
-				"src/js/content.js"
+				"dist/bundle.js"
 			],
 			"run_at": "document_end",
 			"all_frames": true

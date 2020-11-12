@@ -1,0 +1,23 @@
+{
+  "name": "chrome_extension",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Alejo47/chat_pronouns_chrome_extension.git",
+  "author": "Alejo Pereyra <alejo.andres.pereyra@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@types/jquery": "^3.5.4",
+    "axios": "^0.21.0",
+    "jquery": "^3.5.1",
+    "webpack-cli": "^4.2.0"
+  },
+  "devDependencies": {
+    "ts-loader": "^8.0.10",
+    "typescript": "^4.0.5",
+    "webpack": "^5.4.0"
+  },
+  "scripts": {
+    "build": "webpack",
+    "watch": "webpack -w"
+  }
+}

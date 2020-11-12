@@ -1,11 +1,21 @@
 /* jshint esversion: 8 */
+
+import axios, { AxiosResponse } from 'axios';
+import $ from 'jquery';
+import Pronoun, { IPronoun } from './types/pronouns';
+
+const baseUri = "https://delta.alejo.io/api/";
+
+interface IUser {
+    login: string
+    pronoun_id: string
+}
+
 (async function () {
-    "use strict";
-    const baseUri = "https://delta.alejo.io/";
     async function getPronouns() {
-        var res = await axios.get(baseUri + "pronouns");
-        var p = {};
-        res.data.forEach((pronoun) => {
+        var res: AxiosResponse<Pronoun[]> = await (await axios.get(baseUri + "pronouns"));
+        var p: {[key: string]: string} = {};
+        res.data.forEach((pronoun: Pronoun) => {
             p[pronoun.name] = pronoun.display;
         });
         return p;
@@ -13,11 +23,11 @@
 
     const pronouns = await getPronouns();
 
-    function setItem(key, value) {
+    function setItem(key: string, value: object) {
         sessionStorage.setItem(key, JSON.stringify(value));
     }
-    function getItem(key) {
-        return JSON.parse(sessionStorage.getItem(key));
+    function getItem(key: string) {
+        return JSON.parse(sessionStorage.getItem(key)|| "{}");
     }
 
     async function getUserPronouns() {
@@ -26,38 +36,38 @@
         }
         else {
             var res = await axios.get(baseUri + "users");
-            var pronouns = {};
-            res.data.forEach((user) => {
+            var pronouns: { [key: string]: string } = {};
+            res.data.forEach((user: any) => {
                 pronouns[user.login] = user.pronoun_id;
             });
             setItem('pronouns', pronouns);
             return res.data;
         }
     }
-    async function getUserPronoun(username) {
+    async function getUserPronoun(username: string) {
         if (username == null || username.length < 1) {
             return;
         }
 
         let localPronouns = getItem('pronouns');
-        if (localPronouns && localPronouns[username]) {
+        if (localPronouns && localPronouns[username] && false) {
             return localPronouns[username];
         }
         else {
             var res = await axios.get(baseUri + "users/" + username);
-            var pronouns = {};
+            var pronouns: any = {};
 
             if (localPronouns) {
                 pronouns = localPronouns;
             }
-            res.data.forEach((user) => {
+            res.data.forEach((user: IUser) => {
                 pronouns[user.login] = user.pronoun_id;
             });
             setItem('pronouns', pronouns);
             return pronouns[username];
         }
     }
-    function generatePronounBadge(text) {
+    function generatePronounBadge(text: string): JQuery<HTMLElement> {
         return $('<div>').attr({
             'class': 'tw-inline tw-relative tw-tooltip-wrapper',
             'data-a-target': 'chat-badge',
@@ -78,7 +88,7 @@
             }
             let target = $(e.target);
             let username = target.find('span.chat-author__display-name').attr('data-a-user');
-            let pronoun = await getUserPronoun(username);
+            let pronoun = await getUserPronoun(username || "");
             if (username && pronoun) {
                 let badges = target.find('.chat-line__username-container.tw-inline-block > span:not([class])');
                 badges.append(generatePronounBadge(pronouns[pronoun]));
