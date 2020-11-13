@@ -7,6 +7,10 @@ export interface IPronoun {
 	isBot: boolean;
 }
 
+export interface IPronouns {
+	[key: string]: string
+}
+
 export default class Pronoun implements IPronoun {
 	name: string
 	display: string
@@ -25,9 +29,10 @@ export default class Pronoun implements IPronoun {
 	// 	return res.data;
 	// }
 
-	static async getPronouns() {
-		var res: AxiosResponse<Pronoun[]> = await (await axios.get(process.env.BASE_API_URL + "pronouns"));
-		var p: { [key: string]: string } = {};
+	static async getPronouns(): Promise<IPronouns> {
+		var res: AxiosResponse<Pronoun[]> = await axios.get(process.env.BASE_API_URL + "pronouns");
+		var p: IPronouns = {};
+		debugger
 		res.data.forEach((pronoun: Pronoun) => {
 			p[pronoun.name] = pronoun.display;
 		});
@@ -47,7 +52,7 @@ export default class Pronoun implements IPronoun {
 		}
 		else {
 			var res = await axios.get(process.env.BASE_API_URL + "users");
-			var pronouns: { [key: string]: string } = {};
+			var pronouns: IPronouns = {};
 			res.data.forEach((user: any) => {
 				pronouns[user.login] = user.pronoun_id;
 			});
@@ -55,27 +60,17 @@ export default class Pronoun implements IPronoun {
 			return res.data;
 		}
 	}
-	static async getUserPronoun(username: string) {
-		if (username == null || username.length < 1) {
+
+	static async getUserPronoun(username: string): Promise<string | undefined> {
+		if (username.length < 1) {
 			return;
 		}
 
-		let localPronouns = this.getItem('pronouns');
-		if (localPronouns && localPronouns[username]) {
-			return localPronouns[username];
-		}
-		else {
-			var res = await axios.get(process.env.BASE_API_URL + "users/" + username);
-			var pronouns: any = {};
-
-			if (localPronouns) {
-				pronouns = localPronouns;
-			}
-			res.data.forEach((user: any) => {
-				pronouns[user.login] = user.pronoun_id;
-			});
-			this.setItem('pronouns', pronouns);
-			return pronouns[username];
-		}
+		var res = await axios.get(process.env.BASE_API_URL + "users/" + username);
+		var users: any = {};
+		res.data.forEach((user: any) => {
+			users[user.login] = user.pronoun_id;
+		});
+		return users[username];
 	}
 }
