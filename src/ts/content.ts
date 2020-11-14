@@ -1,5 +1,4 @@
 /* jshint esversion: 8 */
-import axios, { AxiosResponse } from 'axios';
 import $ from 'jquery';
 import Pronoun, { IPronouns } from './types/pronouns';
 
