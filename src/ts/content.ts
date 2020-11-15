@@ -3,6 +3,7 @@ import $ from 'jquery';
 import Pronoun, { IPronouns } from './types/pronouns';
 
 let pronouns: IPronouns;
+const isDashboard: boolean = window.location.hostname === "dashboard.twitch.tv";
 
 function generatePronounBadge(text: string): JQuery<HTMLElement> {
 	return $('<div>').attr({
@@ -18,18 +19,21 @@ function generatePronounBadge(text: string): JQuery<HTMLElement> {
 	}).text('Pronoun'));
 }
 
-let chatInserted = (ev: Event) => {
-	if (!ev.target) {
-		return;
-	}
+let chatInserted = (elm: JQuery<HTMLElement>): ((ev: Event) => void) => {
+	return (ev: Event) => {
+		if (!ev.target) {
+			return;
+		}
 
-	if ($(ev.target).attr('class') === "simplebar-scroll-content") {
-		$('[data-a-target="right-column-chat-bar"]').off('DOMNodeInserted')
-		$('[data-test-selector="chat-scrollable-area__message-container"]').on('DOMNodeInserted', chatMessageInterceptor);
+		if ($(ev.target).attr('data-a-target') === "chat-welcome-message") {
+			elm.off('DOMNodeInserted');
+			$('[data-test-selector="chat-scrollable-area__message-container"]').on('DOMNodeInserted', chatMessageInterceptor);
+		}
 	}
 }
 
 let chatMessageInterceptor = async (ev: Event) => {
+	debugger
 	if (!ev.target || (ev.target as HTMLElement).nodeName === "SPAN") {
 		return;
 	}
@@ -47,7 +51,8 @@ let chatMessageInterceptor = async (ev: Event) => {
 
 let init = async () => {
 	pronouns = await Pronoun.getPronouns();
-	$('[data-a-target="right-column-chat-bar"]').on('DOMNodeInserted', chatInserted)
+	let elm: JQuery<HTMLElement> = !isDashboard ? $('[data-a-target="right-column-chat-bar"]') : $('#root');
+	elm.on('DOMNodeInserted', chatInserted(elm));
 }
 
 init();
