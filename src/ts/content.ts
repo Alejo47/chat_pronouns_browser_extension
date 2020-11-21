@@ -33,7 +33,6 @@ let chatInserted = (elm: JQuery<HTMLElement>): ((ev: Event) => void) => {
 }
 
 let chatMessageInterceptor = async (ev: Event) => {
-	debugger
 	if (!ev.target || (ev.target as HTMLElement).nodeName === "SPAN") {
 		return;
 	}
