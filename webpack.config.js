@@ -9,7 +9,7 @@ module.exports = {
     },
     plugins: [
         new webpack.DefinePlugin({
-            'process.env.BASE_API_URL': JSON.stringify("https://delta.alejo.io/api/")
+            'process.env.BASE_API_URL': JSON.stringify("https://pronouns.alejo.io/api/")
         })
     ],
     resolve: {
