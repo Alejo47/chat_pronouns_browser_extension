@@ -24,11 +24,6 @@ export default class Pronoun implements IPronoun {
 		return (name == "bot");
 	}
 
-	// static async getPronouns(): Promise<Pronoun[]> {
-	// 	let res: AxiosResponse<Pronoun[]> = await axios.get(process.env.VUE_APP_BACKEND_BASE_URI + '/pronouns');
-	// 	return res.data;
-	// }
-
 	static async getPronouns(): Promise<IPronouns> {
 		var res: AxiosResponse<Pronoun[]> = await axios.get(process.env.BASE_API_URL + "pronouns");
 		var p: IPronouns = {};
