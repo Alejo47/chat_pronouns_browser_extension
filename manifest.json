@@ -9,9 +9,6 @@
 				"https://twitch.tv/*",
 				"https://dashboard.twitch.tv/u/*/stream-manager"
 			],
-			"css": [
-				"src/css/content.css"
-			],
 			"js": [
 				"dist/bundle.js"
 			],

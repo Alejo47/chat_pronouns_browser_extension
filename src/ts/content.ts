@@ -1,6 +1,7 @@
 /* jshint esversion: 8 */
 import $ from 'jquery';
 import Pronoun, { IPronouns } from './types/pronouns';
+import './../css/content';
 
 let pronouns: IPronouns;
 const isDashboard: boolean = window.location.hostname === "dashboard.twitch.tv";

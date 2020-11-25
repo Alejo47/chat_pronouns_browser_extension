@@ -17,12 +17,14 @@ module.exports = {
             ".webpack.js",
             ".web.js",
             ".ts",
-            ".js"
+            ".js",
+            ".css"
         ]
     },
     module: {
         rules: [
-            { test: /\.ts$/, loader: "ts-loader" }
-        ]
-    }
+            { test: /\.css$/i, use: ['style-loader', 'css-loader'] },
+            { test: /\.ts$/i, use: ['ts-loader'] },
+        ],
+    },
 }
