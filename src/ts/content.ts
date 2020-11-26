@@ -5,6 +5,8 @@ import './../css/content';
 
 let pronouns: IPronouns;
 const isDashboard: boolean = window.location.hostname === "dashboard.twitch.tv";
+const isPopout: boolean = /^\/popout\/([a-zA-Z0-9_]{3,50})\/chat/.test(window.location.pathname);
+const isModView: boolean = /^\/moderator\/([a-zA-Z0-9_]{3,24})/.test(window.location.pathname);
 
 function generatePronounBadge(text: string): JQuery<HTMLElement> {
 	return $('<div>').attr({
@@ -38,12 +40,13 @@ let chatMessageInterceptor = async (ev: Event) => {
 		return;
 	}
 	let target: JQuery<EventTarget> = $(ev.target);
-	let username: string | undefined = target.find('span.chat-author__display-name').attr('data-a-user');
+	let userElm: JQuery<HTMLElement> = target.find('span.chat-author__display-name');
+	let username: string | undefined = userElm.attr('data-a-user') || userElm.text().toLowerCase();
 
 	if (username !== undefined) {
 		let pronoun: string | undefined = await Pronoun.getUserPronoun(username);
 		if (pronoun !== undefined) {
-			let badges = target.find('.chat-line__username-container.tw-inline-block > span:not([class])');
+			let badges = target.find('.chat-line__username-container.tw-inline-block > span:not([class]),.chat-line__message--badges');
 			badges.append(generatePronounBadge(pronouns[pronoun]));
 		}
 	}
@@ -51,7 +54,7 @@ let chatMessageInterceptor = async (ev: Event) => {
 
 let init = async () => {
 	pronouns = await Pronoun.getPronouns();
-	let elm: JQuery<HTMLElement> = !isDashboard ? $('[data-a-target="right-column-chat-bar"]') : $('#root');
+	let elm: JQuery<HTMLElement> = isDashboard || isModView || isPopout ? $('#root') : $('[data-a-target="right-column-chat-bar"]') ;
 	elm.on('DOMNodeInserted', chatInserted(elm));
 }
 
