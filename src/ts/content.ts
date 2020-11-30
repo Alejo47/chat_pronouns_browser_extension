@@ -54,7 +54,7 @@ let chatMessageInterceptor = async (ev: Event) => {
 
 let init = async () => {
 	pronouns = await Pronoun.getPronouns();
-	let elm: JQuery<HTMLElement> = isDashboard || isModView || isPopout ? $('#root') : $('[data-a-target="right-column-chat-bar"]') ;
+	let elm: JQuery<HTMLElement> = isDashboard || isModView || isPopout ? $('#root') : $('[data-a-target="right-column-chat-bar"]');
 	elm.on('DOMNodeInserted', chatInserted(elm));
 }
 
