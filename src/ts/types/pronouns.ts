@@ -3,8 +3,6 @@ import axios, { AxiosResponse } from 'axios'
 export interface IPronoun {
 	name: string
 	display: string
-
-	isBot: boolean;
 }
 
 export interface IPronouns {
@@ -20,10 +18,6 @@ export default class Pronoun implements IPronoun {
 		this.display = display || ""
 	}
 
-	get isBot(): boolean {
-		return (name == "bot");
-	}
-
 	static async getPronouns(): Promise<IPronouns> {
 		var res: AxiosResponse<Pronoun[]> = await axios.get(process.env.BASE_API_URL + "pronouns");
 		var p: IPronouns = {};
@@ -31,28 +25,6 @@ export default class Pronoun implements IPronoun {
 			p[pronoun.name] = pronoun.display;
 		});
 		return p;
-	}
-
-	static setItem(key: string, value: object) {
-		sessionStorage.setItem(key, JSON.stringify(value));
-	}
-	static getItem(key: string) {
-		return JSON.parse(sessionStorage.getItem(key) || "{}");
-	}
-
-	static async getUserPronouns() {
-		if (this.getItem('pronouns')) {
-			return this.getItem('pronouns');
-		}
-		else {
-			var res = await axios.get(process.env.BASE_API_URL + "users");
-			var pronouns: IPronouns = {};
-			res.data.forEach((user: any) => {
-				pronouns[user.login] = user.pronoun_id;
-			});
-			this.setItem('pronouns', pronouns);
-			return res.data;
-		}
 	}
 
 	static async getUserPronoun(username: string): Promise<string | undefined> {
