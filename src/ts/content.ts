@@ -1,7 +1,7 @@
 /* jshint esversion: 8 */
 import $ from 'jquery';
 import Pronoun, { IPronouns } from './types/pronouns';
-import './../css/content';
+import './../css/content.less';
 import * as API from './api/pronouns.alejo.io';
 
 let pronouns: IPronouns;
