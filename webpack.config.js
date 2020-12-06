@@ -8,8 +8,10 @@ module.exports = {
         path: path.resolve(__dirname, 'dist')
     },
     plugins: [
-        new webpack.DefinePlugin({
-            'process.env.BASE_API_URL': JSON.stringify("https://pronouns.alejo.io/api/")
+        new webpack.EnvironmentPlugin({
+            BASE_API_URL: 'https://pronouns.alejo.io/api/',
+            NODE_ENV: 'development',
+            DEBUG: false
         })
     ],
     resolve: {
@@ -23,8 +25,8 @@ module.exports = {
     },
     module: {
         rules: [
-            { test: /\.css$/i, use: ['style-loader', 'css-loader'] },
-            { test: /\.ts$/i, use: ['ts-loader'] },
+            { test: /\.css$/i, use: [ 'style-loader', 'css-loader' ] },
+            { test: /\.ts$/i, use: [ 'ts-loader' ] },
         ],
     },
 }
