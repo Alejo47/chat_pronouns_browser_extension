@@ -23,6 +23,20 @@ function generatePronounBadge(text: string): JQuery<HTMLElement> {
 	}).text('Pronoun'));
 }
 
+let processMessage = async (target: JQuery<EventTarget> | HTMLElement) => {
+	target = $(target) as JQuery<HTMLElement>;
+	let userElm: JQuery<HTMLElement> = target.find('span.chat-author__display-name');
+	let username: string | undefined = userElm.attr('data-a-user') || userElm.text().toLowerCase();
+
+	if (username !== undefined) {
+		let pronoun: string | undefined = await API.getUserPronoun(username);
+		if (pronoun !== undefined) {
+			let badges = target.find('.chat-line__username-container.tw-inline-block > span:not([class]),.chat-line__message--badges');
+			badges.append(generatePronounBadge(pronouns[pronoun]));
+		}
+	}
+}
+
 let chatInserted = (elm: JQuery<HTMLElement>): ((ev: Event) => void) => {
 	return (ev: Event) => {
 		if (!ev.target) {
@@ -41,16 +55,7 @@ let chatMessageInterceptor = async (ev: Event) => {
 		return;
 	}
 	let target: JQuery<EventTarget> = $(ev.target);
-	let userElm: JQuery<HTMLElement> = target.find('span.chat-author__display-name');
-	let username: string | undefined = userElm.attr('data-a-user') || userElm.text().toLowerCase();
-
-	if (username !== undefined) {
-		let pronoun: string | undefined = await API.getUserPronoun(username);
-		if (pronoun !== undefined) {
-			let badges = target.find('.chat-line__username-container.tw-inline-block > span:not([class]),.chat-line__message--badges');
-			badges.append(generatePronounBadge(pronouns[pronoun]));
-		}
-	}
+	await processMessage(target);
 }
 
 let init = async () => {
