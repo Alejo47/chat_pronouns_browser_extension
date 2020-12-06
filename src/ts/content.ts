@@ -2,6 +2,7 @@
 import $ from 'jquery';
 import Pronoun, { IPronouns } from './types/pronouns';
 import './../css/content';
+import * as API from './api/pronouns.alejo.io';
 
 let pronouns: IPronouns;
 const isDashboard: boolean = window.location.hostname === "dashboard.twitch.tv";
@@ -44,7 +45,7 @@ let chatMessageInterceptor = async (ev: Event) => {
 	let username: string | undefined = userElm.attr('data-a-user') || userElm.text().toLowerCase();
 
 	if (username !== undefined) {
-		let pronoun: string | undefined = await Pronoun.getUserPronoun(username);
+		let pronoun: string | undefined = await API.getUserPronoun(username);
 		if (pronoun !== undefined) {
 			let badges = target.find('.chat-line__username-container.tw-inline-block > span:not([class]),.chat-line__message--badges');
 			badges.append(generatePronounBadge(pronouns[pronoun]));
@@ -53,7 +54,7 @@ let chatMessageInterceptor = async (ev: Event) => {
 }
 
 let init = async () => {
-	pronouns = await Pronoun.getPronouns();
+	pronouns = await API.getPronouns();
 	let elm: JQuery<HTMLElement> = isDashboard || isModView || isPopout ? $('#root') : $('[data-a-target="right-column-chat-bar"]');
 	elm.on('DOMNodeInserted', chatInserted(elm));
 }
