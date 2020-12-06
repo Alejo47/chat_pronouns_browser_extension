@@ -16,5 +16,8 @@
 			"all_frames": true
 		}
 	],
+	"permissions": [
+		"https://pronouns.alejo.io/*"
+	],
 	"manifest_version": 2
 }
