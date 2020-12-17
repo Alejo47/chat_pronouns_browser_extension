@@ -1,6 +1,6 @@
 {
 	"name": "Twitch Chat pronouns",
-	"version": "0.1.4",
+	"version": "0.1.5",
 	"description": "Add Pronouns to Twitch Chat",
 	"content_scripts": [
 		{
