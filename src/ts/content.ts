@@ -12,7 +12,7 @@ const isModView: boolean = /^\/moderator\/([a-zA-Z0-9_]{3,24})/.test(window.loca
 
 function generatePronounBadge(text: string): JQuery<HTMLElement> {
 	return $('<div>').attr({
-		'class': 'tw-inline tw-relative tw-tooltip-wrapper',
+		'class': 'tw-inline tw-relative tw-tooltip__container',
 		'data-a-target': 'chat-badge',
 	}).append($('<span>').attr({
 		'class': "chat-badge user-pronoun",
