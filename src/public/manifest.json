@@ -10,7 +10,7 @@
 				"https://dashboard.twitch.tv/u/*/stream-manager"
 			],
 			"js": [
-				"dist/bundle.js"
+				"./bundle.js"
 			],
 			"run_at": "document_end",
 			"all_frames": true

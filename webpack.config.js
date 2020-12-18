@@ -1,5 +1,6 @@
-const webpack = require('webpack');
+const CopyPlugin = require("copy-webpack-plugin");
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
     entry: "./src/ts/content.ts",
@@ -15,7 +16,12 @@ module.exports = {
             BASE_API_URL: 'https://pronouns.alejo.io/api/',
             NODE_ENV: 'development',
             DEBUG: false
-        })
+        }),
+        new CopyPlugin({
+            patterns: [
+                { from: "./src/public", to: "./" },
+            ],
+        }),
     ],
     resolve: {
         extensions: [
