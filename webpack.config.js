@@ -4,9 +4,9 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: "./src/ts/content.ts",
-		optimization: {
-			minimize: false
-		},
+    optimization: {
+        minimize: false
+    },
     output: {
         filename: "bundle.js",
         path: path.resolve(__dirname, 'dist')
@@ -39,7 +39,7 @@ module.exports = {
             { test: /\.less$/i, use: [ 
                 { loader: "style-loader" },
                 { loader: "css-loader" },
-                { loader: "less-loader", options: {} }
+                { loader: "less-loader" }
             ] },
         ],
     },
