@@ -25,15 +25,16 @@ function generatePronounBadge(text: string): JQuery<HTMLElement> {
 	}).text('Pronoun'));
 }
 
-let processMessage = async (target: JQuery<EventTarget> | HTMLElement) => {
+
+let processLiveMessage = async (target: JQuery<EventTarget> | HTMLElement) => {
 	target = $(target) as JQuery<HTMLElement>;
-	let userElm: JQuery<HTMLElement> = target.find(Selectors.CHAT_DISPLAY_NAME);
+	let userElm: JQuery<HTMLElement> = target.find(Selectors.LIVE_CHAT_DISPLAY_NAME);
 	let username: string | undefined = userElm.attr('data-a-user') || userElm.text().toLowerCase();
 
 	if (username !== undefined) {
 		let pronoun: string | undefined = await API.getUserPronoun(username);
 		if (pronoun !== undefined) {
-			let badges = target.find(Selectors.CHAT_BADGES);
+			let badges = target.find(Selectors.LIVE_CHAT_BADGES);
 			badges.append(generatePronounBadge(pronouns[pronoun]));
 		}
 	}
@@ -57,7 +58,7 @@ let chatMessageInterceptor = async (ev: Event) => {
 		return;
 	}
 	let target: JQuery<EventTarget> = $(ev.target);
-	await processMessage(target);
+	await processLiveMessage(target);
 }
 
 let init = async () => {
