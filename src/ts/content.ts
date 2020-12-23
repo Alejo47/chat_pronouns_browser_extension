@@ -10,6 +10,7 @@ let pronouns: IPronouns;
 const isDashboard: boolean = window.location.hostname === "dashboard.twitch.tv";
 const isPopout: boolean = /^\/popout\/([a-zA-Z0-9_]{3,50})\/chat/.test(window.location.pathname);
 const isModView: boolean = /^\/moderator\/([a-zA-Z0-9_]{3,24})/.test(window.location.pathname);
+const isVoD: boolean = /^\/videos\/\d+/.test(window.location.pathname);
 
 function generatePronounBadge(text: string): JQuery<HTMLElement> {
 	return $('<div>').attr({
@@ -25,6 +26,20 @@ function generatePronounBadge(text: string): JQuery<HTMLElement> {
 	}).text('Pronoun'));
 }
 
+let processVoDMessage = async (target: JQuery<EventTarget> | HTMLElement) => {
+	target = $(target) as JQuery<HTMLElement>;
+	console.log(target)
+	let userElm: JQuery<HTMLElement> = target.find(Selectors.VOD_CHAT_USERNAME);
+	let username: string | undefined = userElm.attr('data-a-user') || userElm.text().toLowerCase();
+
+	if (username !== undefined) {
+		let pronoun: string | undefined = await API.getUserPronoun(username);
+		if (pronoun !== undefined) {
+			let badges = target.find(Selectors.VOD_CHAT_BADGES);
+			badges.append(generatePronounBadge(pronouns[pronoun]));
+		}
+	}
+}
 
 let processLiveMessage = async (target: JQuery<EventTarget> | HTMLElement) => {
 	target = $(target) as JQuery<HTMLElement>;
@@ -49,6 +64,9 @@ let chatInserted = (elm: JQuery<HTMLElement>): ((ev: Event) => void) => {
 		if ($(ev.target).attr('data-a-target') === "chat-welcome-message") {
 			elm.off('DOMNodeInserted');
 			$(Selectors.CHAT_SCROLLABLE_AREA).on('DOMNodeInserted', chatMessageInterceptor);
+		} else if (isVoD && $(ev.target).attr('class') === Selectors.VOD_CHAT_COLUMN) {
+			elm.off('DOMNodeInserted');
+			$(ev.target).on('DOMNodeInserted', chatMessageInterceptor);
 		}
 	}
 }
@@ -58,7 +76,11 @@ let chatMessageInterceptor = async (ev: Event) => {
 		return;
 	}
 	let target: JQuery<EventTarget> = $(ev.target);
-	await processLiveMessage(target);
+	if (!isVoD) {
+		await processLiveMessage(target);
+	} else {
+		await processVoDMessage(target);
+	}
 }
 
 let init = async () => {
