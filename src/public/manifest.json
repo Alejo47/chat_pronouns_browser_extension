@@ -1,13 +1,14 @@
 {
 	"name": "Twitch Chat pronouns",
-	"version": "0.1.5",
+	"version": "0.1.6",
 	"description": "Add Pronouns to Twitch Chat",
 	"content_scripts": [
 		{
 			"matches": [
 				"https://www.twitch.tv/*",
 				"https://twitch.tv/*",
-				"https://dashboard.twitch.tv/u/*/stream-manager"
+				"https://dashboard.twitch.tv/u/*/stream-manager",
+				"https://dashboard.twitch.tv/popout/u/*/stream-manager/chat"
 			],
 			"js": [
 				"./bundle.js"
