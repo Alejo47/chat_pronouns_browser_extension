@@ -12,7 +12,7 @@ const isPopout: boolean = /^\/popout\/([a-zA-Z0-9_]{3,50})\/chat/.test(window.lo
 const isModView: boolean = /^\/moderator\/([a-zA-Z0-9_]{3,24})/.test(window.location.pathname);
 const isVoD: boolean = /^\/videos\/\d+/.test(window.location.pathname);
 
-function generatePronounBadge(text: string): JQuery<HTMLElement> {
+const generatePronounBadge = (text: string): JQuery<HTMLElement> => {
 	return $('<div>').attr({
 		'class': 'tw-inline tw-relative tw-tooltip__container',
 		'data-a-target': 'chat-badge',
@@ -26,66 +26,62 @@ function generatePronounBadge(text: string): JQuery<HTMLElement> {
 	}).text('Pronoun'));
 }
 
-let processVoDMessage = async (target: JQuery<EventTarget> | HTMLElement) => {
+const processVoDMessage = async (target: JQuery<EventTarget> | HTMLElement) => {
 	target = $(target) as JQuery<HTMLElement>;
-	let userElm: JQuery<HTMLElement> = target.find(Selectors.VOD_CHAT_USERNAME);
-	let username: string | undefined = userElm.attr('data-a-user') || userElm.text().toLowerCase();
+	const userElm: JQuery<HTMLElement> = target.find(Selectors.VOD_CHAT_USERNAME);
+	const username: string | undefined = userElm.attr('data-a-user') || userElm.text().toLowerCase();
 
 	if (username !== undefined) {
-		let pronoun: string | undefined = await API.getUserPronoun(username);
+		const pronoun: string | undefined = await API.getUserPronoun(username);
 		if (pronoun !== undefined) {
-			let badges = target.find(Selectors.VOD_CHAT_BADGES);
+			const badges = target.find(Selectors.VOD_CHAT_BADGES);
 			badges.append(generatePronounBadge(pronouns[pronoun]));
 		}
 	}
 }
 
-let processLiveMessage = async (target: JQuery<EventTarget> | HTMLElement) => {
+const processLiveMessage = async (target: JQuery<EventTarget> | HTMLElement) => {
 	target = $(target) as JQuery<HTMLElement>;
-	let userElm: JQuery<HTMLElement> = target.find(Selectors.LIVE_CHAT_DISPLAY_NAME);
-	let username: string | undefined = userElm.attr('data-a-user') || userElm.text().toLowerCase();
+	const userElm: JQuery<HTMLElement> = target.find(Selectors.LIVE_CHAT_DISPLAY_NAME);
+	const username: string | undefined = userElm.attr('data-a-user') || userElm.text().toLowerCase();
 
 	if (username !== undefined) {
-		let pronoun: string | undefined = await API.getUserPronoun(username);
+		const pronoun: string | undefined = await API.getUserPronoun(username);
 		if (pronoun !== undefined) {
-			let badges = target.find(Selectors.LIVE_CHAT_BADGES);
+			const badges = target.find(Selectors.LIVE_CHAT_BADGES);
 			badges.append(generatePronounBadge(pronouns[pronoun]));
 		}
 	}
 }
 
-let chatInserted = (elm: JQuery<HTMLElement>): ((ev: Event) => void) => {
-	return (ev: Event) => {
-		if (!ev.target) {
-			return;
-		}
-
-		if ($(ev.target).attr('data-a-target') === "chat-welcome-message") {
-			elm.off('DOMNodeInserted');
-			$(Selectors.CHAT_SCROLLABLE_AREA).on('DOMNodeInserted', chatMessageInterceptor);
-		} else if (isVoD && $(ev.target).attr('class') === Selectors.VOD_CHAT_COLUMN) {
-			elm.off('DOMNodeInserted');
-			$(ev.target).on('DOMNodeInserted', chatMessageInterceptor);
+const nodeParser = (node: Node) => {
+	if (node instanceof HTMLElement) {
+		if (node.getAttribute("data-test-selector") === "chat-line-message") {
+			processLiveMessage(node);
+		} else if (isVoD && node.nodeName.toUpperCase() === "LI") {
+			processVoDMessage(node);
 		}
 	}
 }
 
-let chatMessageInterceptor = async (ev: Event) => {
-	if (!ev.target || (ev.target as HTMLElement).nodeName === "SPAN") {
+const mutationCallback = (mutations: MutationRecord[]) => {
+	mutations.forEach((mutation: MutationRecord) => {
+		if (mutation.addedNodes && mutation.addedNodes.length > 0) {
+			mutation.addedNodes.forEach(nodeParser);
+		}
+	});
+}
+
+const init = async () => {
+	pronouns = await API.getPronouns();
+	const elm: JQuery<HTMLElement> = $(Selectors.ROOT);
+	if (elm.length <= 0) {
+		setTimeout(init, 1000);
 		return;
 	}
-	let target: JQuery<EventTarget> = $(ev.target);
-	if (!isVoD) {
-		await processLiveMessage(target);
-	} else {
-		await processVoDMessage(target);
-	}
-}
-
-let init = async () => {
-	pronouns = await API.getPronouns();
-	let elm: JQuery<HTMLElement> = isDashboard || isModView || isPopout ? $(Selectors.ROOT) : $(Selectors.RIGHT_COLUMN_CHAT_BAR);
-	elm.on('DOMNodeInserted', chatInserted(elm));
+	const observer = new MutationObserver(mutationCallback);
+	const config = { childList: true, subtree: true };
+	observer.observe(elm[0], config);
 }
 
 init();
