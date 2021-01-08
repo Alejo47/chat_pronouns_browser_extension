@@ -28,7 +28,6 @@ function generatePronounBadge(text: string): JQuery<HTMLElement> {
 
 let processVoDMessage = async (target: JQuery<EventTarget> | HTMLElement) => {
 	target = $(target) as JQuery<HTMLElement>;
-	console.log(target)
 	let userElm: JQuery<HTMLElement> = target.find(Selectors.VOD_CHAT_USERNAME);
 	let username: string | undefined = userElm.attr('data-a-user') || userElm.text().toLowerCase();
 
