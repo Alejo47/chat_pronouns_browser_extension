@@ -7,9 +7,6 @@ import * as Selectors from './constants/selectors';
 import '../style/content.less';
 
 let pronouns: IPronouns;
-const isDashboard: boolean = window.location.hostname === "dashboard.twitch.tv";
-const isPopout: boolean = /^\/popout\/([a-zA-Z0-9_]{3,50})\/chat/.test(window.location.pathname);
-const isModView: boolean = /^\/moderator\/([a-zA-Z0-9_]{3,24})/.test(window.location.pathname);
 const isVoD: boolean = /^\/videos\/\d+/.test(window.location.pathname);
 
 const generatePronounBadge = (text: string): JQuery<HTMLElement> => {
