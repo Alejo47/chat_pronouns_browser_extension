@@ -8,7 +8,7 @@ yarn
 yarn build
 
 # Zip files
-zip out.zip manifest.json dist/*
+yarn zip
 ```
 
 ## Development instructions
@@ -18,7 +18,7 @@ yarn
 
 # Build and watch for file changes for development
 yarn watch
+
+# Install the extension through your browser by selecting the manifest.json file 
+# or by selecting the dist folder depending on your browser
 ```
-## Environment variables
-```env
-BASE_API_URL: Is the base API URL for making database requests, default is 'https://pronouns.alejo.io/api/'
