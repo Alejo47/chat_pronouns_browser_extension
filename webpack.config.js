@@ -36,11 +36,7 @@ module.exports = {
         rules: [
             { test: /\.css$/i, use: [ 'style-loader', 'css-loader' ] },
             { test: /\.ts$/i, use: [ 'ts-loader' ] },
-            { test: /\.less$/i, use: [ 
-                { loader: "style-loader" },
-                { loader: "css-loader" },
-                { loader: "less-loader" }
-            ] },
+            { test: /\.less$/i, use: [ "style-loader" , "css-loader" , "less-loader" ] },
         ],
     },
 }
