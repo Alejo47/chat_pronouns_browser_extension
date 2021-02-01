@@ -22,6 +22,6 @@
   "scripts": {
     "build": "webpack",
     "watch": "webpack -w",
-    "zip": "bestzip out.zip dist/*"
+    "zip": "cd dist && bestzip ../out.zip ./*"
   }
 }
