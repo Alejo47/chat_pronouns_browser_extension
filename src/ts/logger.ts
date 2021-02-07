@@ -42,6 +42,6 @@ export class Logger implements ILogger {
 	}
 }
 
-export let BaseLogger = new Logger(LoggerLevel.NONE)
+export let DefaultLogger = new Logger(LoggerLevel.NONE)
 
-export default BaseLogger
+export default DefaultLogger
