@@ -67,5 +67,3 @@ export const processLiveMessage = async (target: JQuery<EventTarget> | HTMLEleme
 		}
 	}
 }
-
-
