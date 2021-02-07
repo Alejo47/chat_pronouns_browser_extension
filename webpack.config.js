@@ -3,7 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-    entry: "./src/ts/content.ts",
+    entry: "./src/ts/index.ts",
     optimization: {
         minimize: false
     },
