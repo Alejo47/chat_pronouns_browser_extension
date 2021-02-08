@@ -1,7 +1,6 @@
 /* jshint esversion: 8 */
 import $ from 'jquery';
-import Logger, { LoggerLevel } from './logger';
-import { IPronouns } from './types/pronouns';
+import Logger from './logger';
 import { setPronouns, processVoDMessage, processLiveMessage } from './messageProcessor';
 import * as API from './api/pronouns.alejo.io';
 import * as Selectors from './constants/selectors';
