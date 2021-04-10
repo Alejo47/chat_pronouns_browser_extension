@@ -6,11 +6,9 @@
   "author": "Alejo Pereyra <alejo.andres.pereyra@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@types/jquery": "^3.5.4",
     "bestzip": "^2.1.7",
     "copy-webpack-plugin": "^7.0.0",
     "css-loader": "^5.0.1",
-    "jquery": "^3.5.1",
     "less": "^3.12.2",
     "less-loader": "^7.1.0",
     "style-loader": "^2.0.0",
