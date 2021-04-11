@@ -7,6 +7,7 @@ module.exports = {
     optimization: {
         minimize: false
     },
+    mode: 'production',
     output: {
         filename: "bundle.js",
         path: path.resolve(__dirname, 'dist')
@@ -14,7 +15,6 @@ module.exports = {
     plugins: [
         new webpack.EnvironmentPlugin({
             BASE_API_URL: 'https://pronouns.alejo.io/api/',
-            NODE_ENV: 'development',
             DEBUG: false
         }),
         new CopyPlugin({
