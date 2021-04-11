@@ -19,52 +19,56 @@ export const tagAsProcessed = (target: HTMLElement, val: string = 'processing'):
 	}
 }
 
-export const processVoDMessage = async (target: HTMLElement) => {
+export const processVoDMessage = async (target: HTMLElement): Promise<HTMLElement> => {
 	if (tagAsProcessed(target)) {
-		return;
+		return target;
 	}
 
 	const userElm: HTMLElement | null = target.querySelector(Selectors.VOD_CHAT_USERNAME);
 	if (userElm === null) {
-		return;
+		return target;
 	}
 
-	const username: string | null = userElm.getAttribute('data-a-user') || userElm.innerText.toLowerCase();
+	const username: string | null = userElm.getAttribute('data-a-user') || userElm.textContent;
 	if (username !== null) {
-		const pronoun: string | undefined = await API.getUserPronoun(username);
+
+		const pronoun: string | undefined = await API.getUserPronoun(username.toLowerCase());
 		if (pronoun !== undefined) {
 
 			const badges = target.querySelector(Selectors.VOD_CHAT_BADGES);
 			if (badges === null) {
-				return;
+				return target;
 			}
-
 			badges.append(generatePronounBadge(pronouns[pronoun]));
 		}
 	}
+
+	return target;
 }
 
-export const processLiveMessage = async (target: HTMLElement) => {
+export const processLiveMessage = async (target: HTMLElement): Promise<HTMLElement> => {
 	if (tagAsProcessed(target)) {
-		return;
+		return target;
 	}
 
 	const userElm: HTMLElement | null = target.querySelector(Selectors.LIVE_CHAT_DISPLAY_NAME) || target.querySelector(Selectors.FFZ.LIVE_CHAT_DISPLAY_NAME);
 	if (userElm === null) {
-		return;
+		return target;
 	}
 
-	const username: string | undefined = userElm.getAttribute('data-a-user') || userElm.innerText.toLowerCase();
+	const username: string | null = userElm.getAttribute('data-a-user') || userElm.textContent;
+	if (username !== null) {
 
-	if (username !== undefined) {
-		const pronoun: string | undefined = await API.getUserPronoun(username);
+		const pronoun: string | undefined = await API.getUserPronoun(username.toLowerCase());
 		if (pronoun !== undefined) {
 			const badges = target.querySelector(`${Selectors.LIVE_CHAT_BADGES},${Selectors.FFZ.LIVE_CHAT_BADGES}`);
 			if (badges === null) {
-				return;
+				return target;
 			}
 
 			badges.append(generatePronounBadge(pronouns[pronoun]));
 		}
 	}
+
+	return target;
 }

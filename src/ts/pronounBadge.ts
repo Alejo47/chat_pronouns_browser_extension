@@ -4,7 +4,7 @@ export function generatePronounBadge(text: string): HTMLElement {
 	{
 		textSpan.setAttribute('class', "chat-badge user-pronoun")
 		textSpan.setAttribute('data-a-target', "chat-badge")
-		textSpan.innerText = text;
+		textSpan.textContent = text;
 	}
 
 	let tooltipElm = document.createElement('div');
@@ -12,7 +12,7 @@ export function generatePronounBadge(text: string): HTMLElement {
 		tooltipElm.setAttribute('class', 'tw-tooltip tw-tooltip--align-left tw-tooltip--up');
 		tooltipElm.setAttribute('data-a-target', 'tw-tooltip-label');
 		tooltipElm.setAttribute('role', 'tooltip');
-		tooltipElm.innerText = 'Pronoun';
+		tooltipElm.textContent = 'Pronoun';
 	}
 
 	let badgeDiv = document.createElement('div');
@@ -20,8 +20,7 @@ export function generatePronounBadge(text: string): HTMLElement {
 		badgeDiv.setAttribute('class', 'tw-inline tw-relative tw-tooltip__container');
 		badgeDiv.setAttribute('data-a-target', 'chat-badge');
 		badgeDiv.setAttribute('data-provider', 'pronouns.alejo.io');
-		badgeDiv.append(tooltipElm);
-		badgeDiv.append(textSpan);
+		badgeDiv.append(tooltipElm, textSpan);
 	}
 
 	return badgeDiv;
