@@ -21,7 +21,7 @@ describe('Function generatePronounBadge', () => {
 
 		expect(tooltip.getAttribute('data-a-target'), 'have proper target').to.be.equal('tw-tooltip-label');
 		expect(tooltip.getAttribute('role'), 'have proper role').to.be.equal('tooltip');
-		expect(tooltip.textContent, 'have proper role').to.be.equal('Pronoun');
+		expect(tooltip.textContent, 'have proper role').to.be.equal('Pronoun(s)');
 	})
 
 	it('should build SPAN including text', () => {

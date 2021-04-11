@@ -12,7 +12,7 @@ export function generatePronounBadge(text: string): HTMLElement {
 		tooltipElm.setAttribute('class', 'tw-tooltip tw-tooltip--align-left tw-tooltip--up');
 		tooltipElm.setAttribute('data-a-target', 'tw-tooltip-label');
 		tooltipElm.setAttribute('role', 'tooltip');
-		tooltipElm.textContent = 'Pronoun';
+		tooltipElm.textContent = 'Pronoun(s)';
 	}
 
 	let badgeDiv = document.createElement('div');
