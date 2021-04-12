@@ -26,5 +26,5 @@ jobs:
       - run: yarn build
       - uses: actions/upload-artifact@v2
         with:
-          name: build
+          name: "Output files(${{github.sha}})"
           path: ./dist
