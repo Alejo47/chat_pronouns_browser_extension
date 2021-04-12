@@ -6,13 +6,24 @@
   "author": "Alejo Pereyra <alejo.andres.pereyra@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/chai": "^4.2.16",
+    "@types/mocha": "^8.2.2",
+    "@types/sinon": "^9.0.11",
     "bestzip": "^2.1.7",
+    "chai": "^4.3.4",
     "copy-webpack-plugin": "^7.0.0",
     "css-loader": "^5.0.1",
+    "isomorphic-fetch": "^3.0.0",
+    "jsdom": "^16.5.2",
+    "jsdom-global": "^3.0.2",
     "less": "^3.12.2",
     "less-loader": "^7.1.0",
+    "mocha": "^8.3.2",
+    "nock": "^13.0.11",
+    "sinon": "^10.0.0",
     "style-loader": "^2.0.0",
     "ts-loader": "^8.0.10",
+    "ts-node": "^9.1.1",
     "typescript": "^4.0.5",
     "webpack": "^5.4.0",
     "webpack-cli": "^4.2.0"
@@ -20,6 +31,15 @@
   "scripts": {
     "build": "webpack",
     "watch": "webpack -w",
-    "zip": "cd dist && bestzip ../out.zip ./*"
+    "zip": "cd dist && bestzip ../out.zip ./*",
+    "test": "TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha './src/ts/**/*.test.ts'",
+    "watch-test": "TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha './src/ts/**/*.test.ts' -w"
+  },
+  "mocha": {
+    "require": [
+      "./src/ts/test/env.ts",
+      "ts-node/register",
+      "jsdom-global/register"
+    ]
   }
 }
