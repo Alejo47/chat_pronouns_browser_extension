@@ -3,7 +3,8 @@ name: Test and Build Package
 on: [push]
 
 jobs:
-  test:
+  install-deps:
+    name: 'Install dependencies'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -11,7 +12,17 @@ jobs:
         with:
           node-version: 14
       - run: yarn
+
+  run-tests:
+    name: 'Run tests'
+    runs-on: ubuntu-latest
+    steps:
       - run: yarn test
+
+  build-package:
+    name: 'Build package'
+    runs-on: ubuntu-latest
+    steps:
       - run: yarn build
       - uses: actions/upload-artifact@v2
         with:
