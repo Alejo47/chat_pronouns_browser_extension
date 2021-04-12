@@ -32,7 +32,14 @@
     "build": "webpack",
     "watch": "webpack -w",
     "zip": "cd dist && bestzip ../out.zip ./*",
-    "test": "TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register -r jsdom-global/register './src/ts/**/*.test.ts'",
-    "watch-test": "TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register -r jsdom-global/register './src/ts/**/*.test.ts' -w"
+    "test": "TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha './src/ts/**/*.test.ts'",
+    "watch-test": "TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha './src/ts/**/*.test.ts' -w"
+  },
+  "mocha": {
+    "require": [
+      "./src/ts/test/env.ts",
+      "ts-node/register",
+      "jsdom-global/register"
+    ]
   }
 }

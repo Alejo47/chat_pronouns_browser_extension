@@ -2,7 +2,7 @@ import Pronoun, { IPronouns } from "../types/pronouns";
 import { IUser } from "../types/users";
 
 async function get<T = JSON>(endpoint: string): Promise<T> {
-	return await fetch('https://pronouns.alejo.io/api/' + endpoint).then(async (res: Response) => {
+	return await fetch(process.env.BASE_API_URL + endpoint).then(async (res: Response) => {
 		return res.json() as Promise<T>;
 	})
 }
