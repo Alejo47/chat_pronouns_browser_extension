@@ -1,5 +1,4 @@
 /* jshint esversion: 8 */
-import $ from 'jquery';
 import Logger from './logger';
 import { setPronouns, processVoDMessage, processLiveMessage } from './messageProcessor';
 import * as API from './api/pronouns.alejo.io';
@@ -39,9 +38,9 @@ const init = async () => {
 	setPronouns(await API.getPronouns());
 	Logger.info('Fetched pronouns');
 
-	const elm: JQuery<HTMLElement> = $(Selectors.ROOT);
+	const elm: HTMLElement | null = document.querySelector(Selectors.ROOT);
 
-	if (elm.length === 0) {
+	if (elm === null) {
 		setTimeout(init, 1000);
 		return;
 	}
@@ -49,7 +48,7 @@ const init = async () => {
 	const observer = new MutationObserver(mutationCallback);
 	const config = { childList: true, subtree: true };
 
-	observer.observe(elm[0], config);
+	observer.observe(elm, config);
 }
 
 init();

@@ -1,4 +1,5 @@
 import Pronoun, { IPronouns } from "../types/pronouns";
+import { IUser } from "../types/users";
 
 async function get<T = JSON>(endpoint: string): Promise<T> {
 	return await fetch(process.env.BASE_API_URL + endpoint).then(async (res: Response) => {
@@ -20,10 +21,12 @@ export async function getUserPronoun(username: string): Promise<string | undefin
 		return;
 	}
 
-	var res = await get<any[]>("users/" + username);
-	var users: any = {};
-	res.forEach((user: any) => {
-		users[user.login] = user.pronoun_id;
-	});
-	return users[username];
+	var res = await get<IUser[]>("users/" + username);
+	let match: IUser | undefined = res.find((user: IUser) => {
+		return user.login.toLowerCase() === username.toLowerCase();
+	})
+
+	if (match !== undefined) {
+		return match.pronoun_id;
+	}
 }
