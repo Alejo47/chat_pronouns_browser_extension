@@ -10,26 +10,26 @@ describe('Function generatePronounBadge', () => {
 		assert(badge instanceof HTMLDivElement, 'be proper node type');
 
 		expect(badge.childElementCount, 'have 2 children').to.be.equal(2);
-		expect(badge.getAttribute('data-a-target'), 'have proper target').to.be.equal('chat-badge');
+		expect(badge.getAttribute('data-a-target'), 'have proper target').to.be.equal('pr-badge-cnt');
 		expect(badge.getAttribute('data-provider'), 'have proper provider').to.be.equal('pronouns.alejo.io');
 	})
 
-	it('should build DIV tooltip', () => {
-		assert(badge.children[0] instanceof HTMLDivElement, 'is a DIV element');
+	it('should build SPAN including text', () => {
+		assert(badge.children[0] instanceof HTMLSpanElement, 'is a SPAN element');
 
-		const tooltip = badge.children[0] as HTMLDivElement;
+		const badgeSpan = badge.children[0] as HTMLSpanElement;
 
-		expect(tooltip.getAttribute('data-a-target'), 'have proper target').to.be.equal('tw-tooltip-label');
-		expect(tooltip.getAttribute('role'), 'have proper role').to.be.equal('tooltip');
-		expect(tooltip.textContent, 'have proper role').to.be.equal('Pronoun(s)');
+		expect(badgeSpan.getAttribute('data-a-target'), 'have proper target').to.be.equal('pr-badge-txt');
+		expect(badgeSpan.textContent, 'have proper role').to.be.equal(pronounText);
 	})
 
-	it('should build SPAN including text', () => {
-		assert(badge.children[1] instanceof HTMLSpanElement, 'is a SPAN element');
+	it('should build DIV tooltip', () => {
+		assert(badge.children[1] instanceof HTMLDivElement, 'is a DIV element');
 
-		const badgeSpan = badge.children[1] as HTMLSpanElement;
+		const badgeTooltip = badge.children[1] as HTMLDivElement;
 
-		expect(badgeSpan.getAttribute('data-a-target'), 'have proper target').to.be.equal('chat-badge');
-		expect(badgeSpan.textContent, 'have proper role').to.be.equal(pronounText);
+		expect(badgeTooltip.getAttribute('data-a-target'), 'have proper target').to.be.equal('pr-badge-tt');
+		expect(badgeTooltip.getAttribute('role'), 'have proper role').to.be.equal('tooltip');
+		expect(badgeTooltip.textContent, 'have proper tooltip').to.be.equal('Pronoun(s)');
 	})
 })
