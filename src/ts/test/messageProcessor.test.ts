@@ -193,8 +193,10 @@ describe('Message from user with pronouns', () => {
 
 		const element = await processLiveMessage(sampleChatMessage);
 
+		console.log(element.outerHTML)
+
 		const pronounsBadge = element.querySelector('[data-provider="pronouns.alejo.io"]');
-		const pronounsBadgeSpan = element.querySelector('span[data-a-target="chat-badge"]');
+		const pronounsBadgeSpan = element.querySelector('span[data-a-target="pr-badge-txt"]');
 
 		expect(pronounsBadge).to.exist;
 		expect(pronounsBadgeSpan).to.exist;
@@ -207,7 +209,7 @@ describe('Message from user with pronouns', () => {
 		const element = await processVoDMessage(sampleChatMessage);
 
 		const pronounsBadge = element.querySelector('[data-provider="pronouns.alejo.io"]');
-		const pronounsBadgeSpan = element.querySelector('span[data-a-target="chat-badge"]');
+		const pronounsBadgeSpan = element.querySelector('span[data-a-target="pr-badge-txt"]');
 
 		expect(pronounsBadge).to.exist;
 		expect(pronounsBadgeSpan).to.exist;

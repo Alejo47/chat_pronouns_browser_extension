@@ -1,0 +1,30 @@
+name: Test and Build Package
+
+on: [push]
+
+jobs:
+  run-tests:
+    name: 'Run tests'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - run: yarn
+      - run: yarn test
+
+  build-package:
+    name: 'Build package'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - run: yarn
+      - run: yarn build
+      - uses: actions/upload-artifact@v2
+        with:
+          name: "Output files(${{github.sha}})"
+          path: ./dist
