@@ -1,14 +1,24 @@
 .user-pronoun {
-    padding: 2px;
+    line-height: 1.15rem;
+    height: 18px;
     font-weight: bold;
-    border-radius: 5px;
-    color: var(--color-text-base);
-    border: 1px solid var(--color-text-base);
+    font-size: 1rem;
+    padding: 4px;
+    padding-top: 3px;
+    background: var(--color-background-brand);
+    color: var(--color-hinted-grey-1);
+    border-radius: 3px;
+}
+
+.tw-root--theme-light .user-pronoun {
+    background: var(--color-hinted-grey-12);
 }
 
 .pr-badge-wrapper[data-a-target="pr-badge-cnt"][data-provider="pronouns.alejo.io"] {
-    display: inline !important;
-    position: relative !important;
+    float: left;
+    position: relative;
+    margin-right: .3rem;
+    margin-top: .15rem;
 }
 
 .pr-badge-wrapper:hover > .pr-tooltip {
