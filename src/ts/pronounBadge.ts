@@ -2,7 +2,7 @@
 export function generatePronounBadge(text: string): HTMLElement {
 	let textSpan = document.createElement('span');
 	{
-		textSpan.setAttribute('class', 'chat-badge user-pronoun')
+		textSpan.setAttribute('class', 'user-pronoun')
 		textSpan.setAttribute('data-a-target', 'pr-badge-txt')
 		textSpan.textContent = text;
 	}
