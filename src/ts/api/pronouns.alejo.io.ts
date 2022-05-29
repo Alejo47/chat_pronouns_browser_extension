@@ -1,7 +1,10 @@
 import Pronoun, { IPronouns } from "../types/pronouns";
 import { IUser } from "../types/users";
 
-const userPronounsCache: Record<string,string> = {
+type PronounValue = {
+	value?: string
+}
+const userPronounsCache: Record<string, PronounValue> = {
 }
 
 async function get<T = JSON>(endpoint: string): Promise<T> {
@@ -26,7 +29,7 @@ export async function getUserPronoun(username: string): Promise<string | undefin
 
 	const cachedPronoun = userPronounsCache[username]
 	if (cachedPronoun) {
-		return cachedPronoun
+		return cachedPronoun.value
 	}
 
 	var res = await get<IUser[]>("users/" + username);
@@ -34,8 +37,11 @@ export async function getUserPronoun(username: string): Promise<string | undefin
 		return user.login.toLowerCase() === username.toLowerCase();
 	})
 
+	userPronounsCache[username] = {
+		value: match?.pronoun_id
+	}
+
 	if (match !== undefined) {
-		userPronounsCache[username] = match.pronoun_id
 		return match.pronoun_id;
 	}
 }
