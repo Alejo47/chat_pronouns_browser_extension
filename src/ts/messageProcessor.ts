@@ -1,8 +1,7 @@
-import { IPronouns } from './types/pronouns';
-import Logger from './logger';
-import * as Selectors from './constants/selectors';
-import * as API from './api/pronouns.alejo.io';
-import { generatePronounBadge } from './pronounBadge';
+import { IPronouns } from 'src/ts/types/pronouns';
+import * as Selectors from 'src/ts/constants/selectors';
+import * as API from 'src/ts/api/pronouns.alejo.io';
+import { generatePronounBadge } from 'src/ts/pronounBadge';
 
 let pronouns: IPronouns;
 

@@ -9,6 +9,7 @@
     "@types/chai": "^4.2.16",
     "@types/mocha": "^8.2.2",
     "@types/sinon": "^9.0.11",
+    "axios": "^0.27.2",
     "bestzip": "^2.1.7",
     "chai": "^4.3.4",
     "copy-webpack-plugin": "^7.0.0",

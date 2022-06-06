@@ -1,10 +1,9 @@
-/* jshint esversion: 8 */
-import Logger from './logger';
-import { setPronouns, processVoDMessage, processLiveMessage } from './messageProcessor';
-import * as API from './api/pronouns.alejo.io';
-import * as Selectors from './constants/selectors';
+import Logger from 'src/ts/logger';
+import { setPronouns, processVoDMessage, processLiveMessage } from 'src/ts/messageProcessor';
+import * as API from 'src/ts/api/pronouns.alejo.io';
+import * as Selectors from 'src/ts/constants/selectors';
 
-import '../style/content.scss';
+import 'src/style/content.scss';
 
 const isVoD = (): boolean => /^\/videos\/\d+/.test(window.location.pathname);
 

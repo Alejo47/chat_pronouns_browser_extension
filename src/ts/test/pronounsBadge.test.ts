@@ -1,5 +1,5 @@
 import { assert, expect } from 'chai';
-import { generatePronounBadge } from '../pronounBadge';
+import { generatePronounBadge } from 'src/ts/pronounBadge';
 
 describe('Function generatePronounBadge', () => {
 	const pronounText = "Some/Pronouns";

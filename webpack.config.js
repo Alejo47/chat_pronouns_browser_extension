@@ -3,6 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
+    stats: "minimal",
     entry: "./src/ts/index.ts",
     optimization: {
         minimize: false
@@ -24,6 +25,9 @@ module.exports = {
         }),
     ],
     resolve: {
+        alias: {
+            src: path.resolve(__dirname, './src'),
+        },
         extensions: [
             ".webpack.js",
             ".web.js",

@@ -1,8 +1,8 @@
 import { expect } from "chai";
 import 'isomorphic-fetch';
 import nock from 'nock';
-import { mockPronouns, mockUser } from "../api/pronouns.alejo.io.mockData";
-import { processLiveMessage, processVoDMessage, setPronouns } from "../messageProcessor";
+import { mockPronouns, mockUser } from "src/ts/api/pronouns.alejo.io.mockData";
+import { processLiveMessage, processVoDMessage, setPronouns } from "src/ts/messageProcessor";
 
 const chatMessageText = 'test';
 const chatMessageUsername = 'Alejo_47';
