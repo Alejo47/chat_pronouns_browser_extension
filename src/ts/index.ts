@@ -4,7 +4,7 @@ import { setPronouns, processVoDMessage, processLiveMessage } from './messagePro
 import * as API from './api/pronouns.alejo.io';
 import * as Selectors from './constants/selectors';
 
-import '../style/content.less';
+import '../style/content.scss';
 
 const isVoD = (): boolean => /^\/videos\/\d+/.test(window.location.pathname);
 
