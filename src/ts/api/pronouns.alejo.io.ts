@@ -16,7 +16,7 @@ export async function getPronouns(): Promise<IPronouns> {
 	return p;
 }
 
-export async function getUserPronoun(username: string): Promise<string | undefined> {
+export async function getUserPronounKey(username: string): Promise<string | undefined> {
 	if (username.length < 1) {
 		return;
 	}
