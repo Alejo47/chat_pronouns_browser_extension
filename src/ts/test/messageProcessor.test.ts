@@ -2,7 +2,7 @@ import { expect } from "chai";
 import 'isomorphic-fetch';
 import nock from 'nock';
 import { mockPronouns, mockUser } from "src/ts/api/pronouns.alejo.io.mockData";
-import { processLiveMessage, processVoDMessage, setPronouns } from "src/ts/messageProcessor";
+import { processLiveMessage, processVoDMessage, setDeprecatedPronouns } from "src/ts/messageProcessor";
 
 const chatMessageText = 'test';
 const chatMessageUsername = 'Alejo_47';
@@ -182,7 +182,7 @@ const generateSampleVoDChatMessage = (username: string): HTMLElement => {
 
 describe('Message from user with pronouns', () => {
 	beforeEach(() => {
-		setPronouns(mockPronouns);
+		setDeprecatedPronouns(mockPronouns);
 		nock('https://pronouns.alejo.io')
 			.get('/api/users/' + chatMessageUsername.toLowerCase())
 			.reply(200, [mockUser]);
@@ -219,7 +219,7 @@ describe('Message from user with pronouns', () => {
 
 describe('Message from user without pronouns', () => {
 	beforeEach(() => {
-		setPronouns(mockPronouns);
+		setDeprecatedPronouns(mockPronouns);
 		nock('https://pronouns.alejo.io')
 			.get('/api/users/' + chatMessageFakeUsername.toLowerCase())
 			.reply(200, []);

@@ -1,5 +1,5 @@
-import Pronoun, { IPronouns } from "src/ts/types/pronouns";
-import { IUser } from "src/ts/types/users";
+import Pronoun, { IPronouns } from "src/ts/types/deprecated/pronouns";
+import { IUser } from "src/ts/types/deprecated/users";
 
 async function get<T = JSON>(endpoint: string): Promise<T> {
 	return await fetch(process.env.BASE_API_URL + endpoint).then(async (res: Response) => {

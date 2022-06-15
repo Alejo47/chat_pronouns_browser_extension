@@ -1,13 +1,29 @@
-import { IPronouns } from 'src/ts/types/pronouns';
+import { IPronouns } from 'src/ts/types/deprecated/pronouns';
 import * as Selectors from 'src/ts/constants/selectors';
-import * as API from 'src/ts/api/pronouns.alejo.io';
+import * as deprecatedAPI from 'src/ts/api/pronouns.alejo.io';
+import * as newAPI from 'src/ts/api/api.pronouns.alejo.io';
 import { generatePronounBadge } from 'src/ts/pronounBadge';
+import { GetPronounsResponse } from './types/pronouns';
+import { parsePronounGroupToString } from './helpers';
 
-let pronouns: IPronouns;
+let deprecatedPronouns: IPronouns;
+let newPronouns: GetPronounsResponse;
+let _IsNewAPIAvailable = false;
 
-export const setPronouns = (value: IPronouns) => {
-	pronouns = value
+export const setDeprecatedPronouns = (value: IPronouns) => {
+	deprecatedPronouns = value
 }
+
+export const setNewPronouns = (value: GetPronounsResponse) => {
+	newPronouns = value
+}
+
+export const checkForNewAPI = async () => {
+	_IsNewAPIAvailable = await newAPI.getHealthcheck();
+	return _IsNewAPIAvailable;
+}
+
+export const isNewAPIAvailable = () => _IsNewAPIAvailable;
 
 export const tagAsProcessed = (target: HTMLElement, val: string = 'processing'): boolean => {
 	if (target.getAttribute('pronouns') === null) {
@@ -30,15 +46,37 @@ export const processVoDMessage = async (target: HTMLElement): Promise<HTMLElemen
 
 	const username: string | null = userElm.getAttribute('data-a-user') || userElm.textContent;
 	if (username !== null) {
+		if (isNewAPIAvailable()) {
+			const user = await newAPI.getUser(username.toLowerCase());
+			if (user !== undefined) {
+	
+				const badges = target.querySelector(Selectors.VOD_CHAT_BADGES);
+				if (badges === null) {
+					return target;
+				}
 
-		const pronoun: string | undefined = await API.getUserPronoun(username.toLowerCase());
-		if (pronoun !== undefined) {
-
-			const badges = target.querySelector(Selectors.VOD_CHAT_BADGES);
-			if (badges === null) {
-				return target;
+				badges.append(
+					generatePronounBadge(
+						parsePronounGroupToString(
+							newPronouns[user.pronoun_id],
+							user.alt_pronoun_id ?
+								newPronouns[user.alt_pronoun_id] :
+								undefined,
+						)
+					)
+				);
 			}
-			badges.append(generatePronounBadge(pronouns[pronoun]));
+		} else {
+			const pronoun: string | undefined = await deprecatedAPI.getUserPronoun(username.toLowerCase());
+			if (pronoun !== undefined) {
+	
+				const badges = target.querySelector(Selectors.VOD_CHAT_BADGES);
+				if (badges === null) {
+					return target;
+				}
+
+				badges.append(generatePronounBadge(deprecatedPronouns[pronoun]));
+			}
 		}
 	}
 
@@ -58,14 +96,14 @@ export const processLiveMessage = async (target: HTMLElement): Promise<HTMLEleme
 	const username: string | null = userElm.getAttribute('data-a-user') || userElm.textContent;
 	if (username !== null) {
 
-		const pronoun: string | undefined = await API.getUserPronoun(username.toLowerCase());
+		const pronoun: string | undefined = await deprecatedAPI.getUserPronoun(username.toLowerCase());
 		if (pronoun !== undefined) {
 			const badges = target.querySelector(`${Selectors.LIVE_CHAT_BADGES},${Selectors.FFZ.LIVE_CHAT_BADGES}`);
 			if (badges === null) {
 				return target;
 			}
 
-			badges.append(generatePronounBadge(pronouns[pronoun]));
+			badges.append(generatePronounBadge(deprecatedPronouns[pronoun]));
 		}
 	}
 

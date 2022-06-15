@@ -1,6 +1,7 @@
 import Logger from 'src/ts/logger';
-import { setPronouns, processVoDMessage, processLiveMessage } from 'src/ts/messageProcessor';
-import * as API from 'src/ts/api/pronouns.alejo.io';
+import { setDeprecatedPronouns, processVoDMessage, processLiveMessage, checkForNewAPI, isNewAPIAvailable, setNewPronouns } from 'src/ts/messageProcessor';
+import * as deprecatedAPI from 'src/ts/api/pronouns.alejo.io';
+import * as newAPI from 'src/ts/api/api.pronouns.alejo.io';
 import * as Selectors from 'src/ts/constants/selectors';
 
 import 'src/style/content.scss';
@@ -33,8 +34,15 @@ const mutationCallback = (mutations: MutationRecord[]) => {
 }
 
 const init = async () => {
+	Logger.info('Checking for new API');
+	checkForNewAPI();
+	Logger.info(`New API status: ${isNewAPIAvailable() ? "RUNNING" : "OFFLINE"}`);
 	Logger.info('Fetching pronouns');
-	setPronouns(await API.getPronouns());
+	if (isNewAPIAvailable()) {
+		setDeprecatedPronouns(await deprecatedAPI.getPronouns());
+	} else {
+		setNewPronouns(await newAPI.getPronouns());
+	}
 	Logger.info('Fetched pronouns');
 
 	const elm: HTMLElement | null = document.querySelector(Selectors.ROOT);
