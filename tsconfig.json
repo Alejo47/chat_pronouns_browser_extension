@@ -25,10 +25,12 @@
     ],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
     "allowSyntheticDefaultImports": true
   },
   "include": [
-    "./src/ts"
+    "./src/ts",
+    "./src/**/*.tsx"
   ]
 }
