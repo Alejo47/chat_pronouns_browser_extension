@@ -1,24 +1,29 @@
 {
-	"name": "Twitch Chat pronouns",
-	"version": "0.2.0",
-	"description": "Add Pronouns to Twitch Chat",
-	"content_scripts": [
-		{
-			"matches": [
-				"https://www.twitch.tv/*",
-				"https://twitch.tv/*",
-				"https://dashboard.twitch.tv/u/*/stream-manager",
-				"https://dashboard.twitch.tv/popout/u/*/stream-manager/chat"
-			],
-			"js": [
-				"./bundle.js"
-			],
-			"run_at": "document_end",
-			"all_frames": true
-		}
-	],
-	"permissions": [
-		"https://pronouns.alejo.io/*"
-	],
-	"manifest_version": 2
+  "name": "Twitch Chat pronouns",
+  "version": "0.2.0",
+  "description": "Add Pronouns to Twitch Chat",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.twitch.tv/*",
+        "https://twitch.tv/*",
+        "https://dashboard.twitch.tv/u/*/stream-manager",
+        "https://dashboard.twitch.tv/popout/u/*/stream-manager/chat"
+      ],
+      "js": [
+        "./bundle.js"
+      ],
+      "run_at": "document_end",
+      "all_frames": true
+    }
+  ],
+  "host_permissions": [
+    "https://dashboard.twitch.tv/popout/u/*/stream-manager/chat",
+    "https://dashboard.twitch.tv/u/*/stream-manager",
+    "https://pr.alejo.io/*",
+    "https://pronouns.alejo.io/*",
+    "https://twitch.tv/*",
+    "https://www.twitch.tv/*"
+  ],
+  "manifest_version": 3
 }
