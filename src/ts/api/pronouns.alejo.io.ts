@@ -1,32 +1,59 @@
-import Pronoun, { IPronouns } from "src/ts/types/deprecated/pronouns";
-import { IUser } from "src/ts/types/deprecated/users";
+import { PronounValidator } from "src/ts/types/deprecated/pronouns";
+import { UserValidator } from "src/ts/types/deprecated/users";
+import { z } from "zod";
 
-async function get<T = JSON>(endpoint: string): Promise<T> {
-	return await fetch(process.env.BASE_API_URL + endpoint).then(async (res: Response) => {
-		return res.json() as Promise<T>;
-	})
-}
-	
-export async function getPronouns(): Promise<IPronouns> {
-	var res: Pronoun[] = await get<Pronoun[]>("pronouns")
-	var p: IPronouns = {};
-	res.forEach((pronoun: Pronoun) => {
-		p[pronoun.name] = pronoun.display;
-	});
-	return p;
-}
+export const get = async <T>(
+  endpoint: string,
+  validator: z.ZodType<T>,
+  init?: RequestInit,
+) => {
+  const url = new URL("https://api.pronouns.alejo.io/v1");
 
-export async function getUserPronoun(username: string): Promise<string | undefined> {
-	if (username.length < 1) {
-		return;
-	}
+  url.pathname =
+    `${url.pathname}${(endpoint[0] === "/" ? endpoint : `/${endpoint}`)}`;
 
-	var res = await get<IUser[]>("users/" + username);
-	let match: IUser | undefined = res.find((user: IUser) => {
-		return user.login.toLowerCase() === username.toLowerCase();
-	})
+  try {
+    const res = await fetch(url.toString(), init);
 
-	if (match !== undefined) {
-		return match.pronoun_id;
-	}
-}
+    const resJson = await res.json();
+
+    const validation = validator.safeParse(resJson);
+    if (!validation.success) {
+      return undefined;
+    } else {
+      return validation.data;
+    }
+  } catch {
+    return undefined;
+  }
+};
+
+export const getPronouns = async () => {
+  const res = await get("/pronouns", z.array(PronounValidator));
+  return res
+    ? res.reduce<Record<string, string>>((p, c) => {
+      p[c.name] = p.display;
+      return p;
+    }, {})
+    : {};
+};
+
+export const getUser = async (
+  username: string,
+) => {
+  if (username.length < 1) {
+    return;
+  }
+
+  const res = await get("users/" + username, z.array(UserValidator));
+
+  if (!res) {
+    return undefined;
+  }
+
+  const match = res.find((user) => {
+    return user.login.toLowerCase() === username.toLowerCase();
+  });
+
+  return match !== undefined ? match.pronoun_id : undefined;
+};

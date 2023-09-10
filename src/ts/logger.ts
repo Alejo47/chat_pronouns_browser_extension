@@ -45,6 +45,6 @@ export class Logger implements ILogger {
   }
 }
 
-export let DefaultLogger = new Logger(LoggerLevel.DEBUG);
+export const DefaultLogger = new Logger(LoggerLevel.DEBUG);
 
 export default DefaultLogger;

@@ -1,40 +1,53 @@
-import axios from "axios";
-import path from "path";
-import { GetPronounsResponse } from "src/ts/types/pronouns";
-import { User } from "src/ts/types/users";
+import { z } from "zod";
+import { GetPronounsResponseValidator } from "../types/pronouns";
+import { UserValidator } from "../types/users";
 
-async function get<T = JSON>(endpoint: string): Promise<T> {
-  const url = new URL(
-    process.env.BASE_API_URL ?? "https://api.pronouns.alejo.io/v1"
-  );
-  url.pathname = path.join(url.pathname, endpoint);
-  return await axios.get(url.toString());
-}
+export const get = async <T>(
+  endpoint: string,
+  validator: z.ZodType<T>,
+  init?: RequestInit,
+) => {
+  const url = new URL("https://api.pronouns.alejo.io/v1");
 
-export async function getHealthcheck(): Promise<boolean> {
+  url.pathname =
+    `${url.pathname}${(endpoint[0] === "/" ? endpoint : `/${endpoint}`)}`;
+
   try {
-    const res = await get<{
-      "cache-size": number;
-      "cache-keys": string[];
-      "cache-status": "OK" | "ERROR";
-      "pubsub-status": "OK" | "ERROR";
-      status: "OK" | "ERROR";
-    }>("/healthcheck");
+    const res = await fetch(url.toString(), init);
 
-    return (
-      res.status === "OK" &&
-      res["cache-status"] === "OK" &&
-      res["pubsub-status"] === "OK"
-    );
+    const resJson = await res.json();
+
+    const validation = validator.safeParse(resJson);
+    if (!validation.success) {
+      return undefined;
+    } else {
+      return validation.data;
+    }
+  } catch {
+    return undefined;
+  }
+};
+
+export const getHealthcheck = async () => {
+  try {
+    const res = await get("/health", z.object({}));
+
+    return res !== undefined;
   } catch {
     return false;
   }
-}
+};
 
-export async function getPronouns(): Promise<GetPronounsResponse> {
-  return await get<GetPronounsResponse>("pronouns");
-}
+export const getPronouns = async () => {
+  const res = await get("/pronouns", GetPronounsResponseValidator);
+  return res || {};
+};
 
-export async function getUser(username: string): Promise<User> {
-  return await get<User>("users/" + username);
-}
+export const getUser = async (username: string) => {
+  console.debug(username);
+  const res = await get("/users/" + username, UserValidator);
+
+  console.debug(username, res);
+
+  return res;
+};
