@@ -2,7 +2,7 @@ import { PronounGroup } from "src/ts/types/pronouns";
 
 export const parsePronounGroupToString = (
   p: PronounGroup,
-  alt?: PronounGroup
+  alt?: PronounGroup,
 ) => {
   if (p.singular) {
     return `${p.subject}`;
