@@ -4,7 +4,7 @@ import { UserValidator } from "../types/users";
 
 export const get = async <T>(
   endpoint: string,
-  validator: z.ZodType<T>,
+  validator: z.ZodType<T> = z.any(),
   init?: RequestInit,
 ) => {
   const url = new URL("https://api.pronouns.alejo.io/v1");
@@ -30,7 +30,7 @@ export const get = async <T>(
 
 export const getHealthcheck = async () => {
   try {
-    const res = await get("/health", z.object({}));
+    const res = await get("/health");
 
     return res !== undefined;
   } catch {
