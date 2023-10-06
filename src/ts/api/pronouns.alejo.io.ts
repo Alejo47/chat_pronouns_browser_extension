@@ -7,7 +7,7 @@ export const get = async <T>(
   validator: z.ZodType<T>,
   init?: RequestInit,
 ) => {
-  const url = new URL("https://api.pronouns.alejo.io/v1");
+  const url = new URL("https://pronouns.alejo.io/api");
 
   url.pathname =
     `${url.pathname}${(endpoint[0] === "/" ? endpoint : `/${endpoint}`)}`;
@@ -32,7 +32,7 @@ export const getPronouns = async () => {
   const res = await get("/pronouns", z.array(PronounValidator));
   return res
     ? res.reduce<Record<string, string>>((p, c) => {
-      p[c.name] = p.display;
+      p[c.name] = c.display;
       return p;
     }, {})
     : {};
