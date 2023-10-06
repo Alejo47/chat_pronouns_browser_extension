@@ -30,9 +30,22 @@ export const get = async <T>(
 
 export const getHealthcheck = async () => {
   try {
-    const res = await get("/health");
+    const res = await get(
+      "/health",
+      z.object({
+        status: z.literal("OK").or(z.literal("OFFLINE")).or(z.literal("ERROR")),
+        feature_flags: z.record(z.boolean()),
+      }),
+    );
 
-    return res !== undefined;
+    if (res === undefined) {
+      return true;
+    }
+
+    const isReady = res.feature_flags["FEATURE_FLAG_PUBLIC"] &&
+      res.status === "OK";
+
+    return isReady;
   } catch {
     return false;
   }
@@ -44,10 +57,7 @@ export const getPronouns = async () => {
 };
 
 export const getUser = async (username: string) => {
-  console.debug(username);
   const res = await get("/users/" + username, UserValidator);
-
-  console.debug(username, res);
 
   return res;
 };
