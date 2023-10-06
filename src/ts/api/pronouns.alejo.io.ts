@@ -2,7 +2,7 @@ import { PronounValidator } from "src/ts/types/deprecated/pronouns";
 import { UserValidator } from "src/ts/types/deprecated/users";
 import { z } from "zod";
 
-export const get = async <T>(
+export const getDeprecated = async <T>(
   endpoint: string,
   validator: z.ZodType<T>,
   init?: RequestInit,
@@ -28,8 +28,8 @@ export const get = async <T>(
   }
 };
 
-export const getPronouns = async () => {
-  const res = await get("/pronouns", z.array(PronounValidator));
+export const getPronounsDeprecated = async () => {
+  const res = await getDeprecated("/pronouns", z.array(PronounValidator));
   return res
     ? res.reduce<Record<string, string>>((p, c) => {
       p[c.name] = c.display;
@@ -38,14 +38,14 @@ export const getPronouns = async () => {
     : {};
 };
 
-export const getUser = async (
+export const getUserDeprecated = async (
   username: string,
 ) => {
   if (username.length < 1) {
     return;
   }
 
-  const res = await get("users/" + username, z.array(UserValidator));
+  const res = await getDeprecated("users/" + username, z.array(UserValidator));
 
   if (!res) {
     return undefined;

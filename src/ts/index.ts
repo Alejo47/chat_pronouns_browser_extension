@@ -54,7 +54,7 @@ const init = async () => {
   Logger.info(`New API status: ${isNewAPIAvailable() ? "RUNNING" : "OFFLINE"}`);
   Logger.info("Fetching pronouns");
   if (!isNewAPIAvailable()) {
-    const pronouns = await deprecatedAPI.getPronouns();
+    const pronouns = await deprecatedAPI.getPronounsDeprecated();
     setDeprecatedPronouns(pronouns);
   } else {
     const pronouns = await newAPI.getPronouns();

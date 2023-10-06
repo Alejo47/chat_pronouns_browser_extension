@@ -78,7 +78,7 @@ export const processVoDMessage = async (
         );
       }
     } else {
-      const pronoun: string | undefined = await deprecatedAPI.getUser(
+      const pronoun: string | undefined = await deprecatedAPI.getUserDeprecated(
         username.toLowerCase(),
       );
       if (pronoun !== undefined) {
@@ -137,7 +137,6 @@ export const processLiveMessage = async (
         }
 
         const badgeHTML = generatePronounBadge(prettyPrint);
-        console.log(badgeHTML);
 
         badges.insertAdjacentHTML(
           "beforeend",
@@ -145,7 +144,7 @@ export const processLiveMessage = async (
         );
       }
     } else {
-      const pronoun: string | undefined = await deprecatedAPI.getUser(
+      const pronoun: string | undefined = await deprecatedAPI.getUserDeprecated(
         username.toLowerCase(),
       );
       if (pronoun !== undefined) {
