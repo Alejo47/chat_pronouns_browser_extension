@@ -28,5 +28,10 @@
     "https://twitch.tv/*",
     "https://www.twitch.tv/*"
   ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{5ac8c0a3-ce21-4c47-972d-b45e685cca5d}"
+    }
+  },
   "manifest_version": 3
 }
