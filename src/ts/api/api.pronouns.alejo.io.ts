@@ -41,7 +41,7 @@ export const getHealthcheck = async () => {
     );
 
     if (res === undefined) {
-      return true;
+      return false;
     }
 
     const isReady = res.feature_flags["FEATURE_FLAG_PUBLIC"] &&
@@ -74,8 +74,10 @@ export const getUser = async (username: string) => {
   });
 
   userFetchingCache[username] = promise;
+
   setTimeout(() => {
     delete userFetchingCache[username];
   }, 15 * 60 * 1000);
+
   return await promise;
 };
