@@ -17,12 +17,5 @@
   "scripts": {
     "build": "node esbuild.mjs",
     "zip": "cd dist && bestzip ../out.zip ./*"
-  },
-  "mocha": {
-    "require": [
-      "./src/ts/test/env.ts",
-      "ts-node/register",
-      "jsdom-global/register"
-    ]
   }
 }
