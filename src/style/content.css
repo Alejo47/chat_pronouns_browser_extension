@@ -1,0 +1,60 @@
+.user-pronoun {
+  padding: 2px;
+  font-weight: bold;
+  border-radius: 5px;
+  color: var(--color-text-base);
+  border: 1px solid var(--color-text-base);
+}
+
+.pr-badge-wrapper[data-a-target="pr-badge-cnt"][data-provider="pronouns.alejo.io"] {
+  display: inline !important;
+  position: relative !important;
+}
+
+.pr-badge-wrapper:hover > .pr-tooltip {
+  display: block;
+}
+
+.pr-tooltip {
+  padding: 3px 6px;
+  border-radius: var(--border-radius-medium); /* 0.4rem */
+  background-color: var(--color-background-tooltip); /* #fff */
+  color: var(--color-text-tooltip); /* #040109 */
+  display: none;
+  position: absolute;
+  font-size: var(--font-size-6); /* 1.2rem */
+  font-weight: var(--font-weight-semibold); /* 600 */
+  line-height: var(--line-height-heading); /* 1.2 */
+  text-align: left;
+  z-index: var(--z-index-balloon); /* 2000 */
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  top: auto;
+  bottom: 100%;
+  left: 0px;
+  margin-bottom: 0.9rem;
+}
+
+.pr-tooltip::before {
+  top: -6px;
+  left: -6px;
+  width: calc(100% + 12px);
+  height: calc(100% + 12px);
+  z-index: var(--z-index-below); /* undefined? */
+}
+
+.pr-tooltip::after {
+  background-color: var(--color-background-tooltip); /* undefined? */
+  width: 6px;
+  height: 6px;
+  transform: rotate(45deg);
+  z-index: var(--z-index-below); /* undefined? */
+  bottom: -3px;
+  left: 6px;
+}
+
+.pr-tooltip::before, .pr-tooltip::after {
+  position: absolute;
+  content: "";
+}

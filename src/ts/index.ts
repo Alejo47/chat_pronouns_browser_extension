@@ -11,7 +11,7 @@ import * as deprecatedAPI from "src/ts/api/pronouns.alejo.io";
 import * as newAPI from "src/ts/api/api.pronouns.alejo.io";
 import * as Selectors from "src/ts/constants/selectors";
 
-import "src/style/content.scss";
+import "src/style/content.css";
 
 const isVoD = () => /^\/videos\/\d+/.test(window.location.pathname);
 
