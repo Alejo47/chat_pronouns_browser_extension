@@ -18,33 +18,16 @@ const isVoD = () => /^\/videos\/\d+/.test(window.location.pathname);
 const nodeParser = (node: Node) => {
   if (!(node instanceof HTMLElement)) {
     return;
-  }
-  if (
-    node.getAttribute("data-a-target") === "pr-badge-cnt" ||
-    node.classList.contains("kFXyOc") ||
-    node.getAttribute("data-test-selector") ===
-      "channel-leaderboard-container"
-  ) {
+  } else if (node.getAttribute("data-a-target") === "pr-badge-cnt") {
     return;
   }
 
-  if (
-    node.getAttribute("data-test-selector") === "chat-line-message" ||
-    node.classList.contains("chat-line__message")
-  ) {
+  if (node.querySelector(`[data-a-target="chat-line-message"]`)) {
     Logger.debug(node);
     processLiveMessage(node);
-  } else if (
-    node.classList.contains("chat-line__message--badges") &&
-    node.parentElement
-  ) {
-    Logger.debug(node);
-    processLiveMessage(node.parentNode as HTMLElement);
   } else if (isVoD() && node.nodeName.toUpperCase() === "LI") {
     Logger.debug(node);
     processVoDMessage(node);
-  } else {
-    // Logger.debug("uknown node:", node);
   }
 };
 
@@ -65,17 +48,21 @@ const init = async () => {
   const elm = document.querySelector(Selectors.ROOT);
 
   if (elm === null) {
+    // If not found, retry
     setTimeout(init, 1000);
     return;
   }
 
   const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (mutation.addedNodes && mutation.addedNodes.length > 0) {
-        mutation.addedNodes.forEach(nodeParser);
+    for (const mutation of mutations) {
+      if (mutation.addedNodes) {
+        for (const node of mutation.addedNodes) {
+          nodeParser(node);
+        }
       }
-    });
+    }
   });
+
   const config = { childList: true, subtree: true };
 
   observer.observe(elm, config);
