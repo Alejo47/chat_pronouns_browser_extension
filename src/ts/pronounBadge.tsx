@@ -10,7 +10,9 @@ export function generatePronounBadge(text: string) {
       <span className="chat-badge user-pronoun" data-a-target="pr-badge-txt">
         {text}
       </span>
-      <div className="pr-tooltip" role="tooltip">Pronouns(s)</div>
+      <div className="pr-tooltip" role="tooltip">
+        Pronouns(s)
+      </div>
     </div>,
   );
 }

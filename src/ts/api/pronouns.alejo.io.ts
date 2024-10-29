@@ -9,8 +9,7 @@ export const getDeprecated = async <T>(
 ) => {
   const url = new URL("https://pronouns.alejo.io/api");
 
-  url.pathname =
-    `${url.pathname}${(endpoint[0] === "/" ? endpoint : `/${endpoint}`)}`;
+  url.pathname = `${url.pathname}${endpoint[0] === "/" ? endpoint : `/${endpoint}`}`;
 
   try {
     const res = await fetch(url.toString(), init);
@@ -32,15 +31,13 @@ export const getPronounsDeprecated = async () => {
   const res = await getDeprecated("/pronouns", z.array(PronounValidator));
   return res
     ? res.reduce<Record<string, string>>((p, c) => {
-      p[c.name] = c.display;
-      return p;
-    }, {})
+        p[c.name] = c.display;
+        return p;
+      }, {})
     : {};
 };
 
-export const getUserDeprecated = async (
-  username: string,
-) => {
+export const getUserDeprecated = async (username: string) => {
   if (username.length < 1) {
     return;
   }

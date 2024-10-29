@@ -11,8 +11,7 @@ export const get = async <T>(
 ) => {
   const url = new URL("https://api.pronouns.alejo.io/v1");
 
-  url.pathname =
-    `${url.pathname}${(endpoint[0] === "/" ? endpoint : `/${endpoint}`)}`;
+  url.pathname = `${url.pathname}${endpoint[0] === "/" ? endpoint : `/${endpoint}`}`;
 
   try {
     const res = await fetch(url.toString(), init);
@@ -44,8 +43,8 @@ export const getHealthcheck = async () => {
       return false;
     }
 
-    const isReady = res.feature_flags["FEATURE_FLAG_PUBLIC"] &&
-      res.status === "OK";
+    const isReady =
+      res.feature_flags["FEATURE_FLAG_PUBLIC"] && res.status === "OK";
 
     return isReady;
   } catch {
@@ -75,9 +74,12 @@ export const getUser = async (username: string) => {
 
   userFetchingCache[username] = promise;
 
-  setTimeout(() => {
-    delete userFetchingCache[username];
-  }, 15 * 60 * 1000);
+  setTimeout(
+    () => {
+      delete userFetchingCache[username];
+    },
+    15 * 60 * 1000,
+  );
 
   return await promise;
 };

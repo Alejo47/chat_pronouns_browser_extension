@@ -29,9 +29,7 @@ export const getHandleInstance = () => {
   return isNewAPIAvailable() ? newAPI : deprecatedAPI;
 };
 
-export const tagAsProcessed = (
-  target: HTMLElement,
-) => {
+export const tagAsProcessed = (target: HTMLElement) => {
   if (target.getAttribute("pronouns") === null) {
     target.setAttribute("pronouns", "");
     return false;
@@ -54,8 +52,8 @@ export const processVoDMessage = async (
     return target;
   }
 
-  const username: string | null = userElm.getAttribute("data-a-user") ||
-    userElm.textContent;
+  const username: string | null =
+    userElm.getAttribute("data-a-user") || userElm.textContent;
   if (username !== null) {
     if (isNewAPIAvailable()) {
       const user = await newAPI.getUser(username.toLowerCase());
@@ -111,13 +109,10 @@ export const processLiveMessage = async (
   if (userElm === null) {
     return target;
   }
-  const username = userElm.getAttribute("data-a-user") ||
-    userElm.textContent;
+  const username = userElm.getAttribute("data-a-user") || userElm.textContent;
   if (username !== null) {
     if (isNewAPIAvailable()) {
-      const pronouns = await newAPI.getUser(
-        username.toLowerCase(),
-      );
+      const pronouns = await newAPI.getUser(username.toLowerCase());
       if (pronouns !== undefined) {
         const badges = target.querySelector(
           `${Selectors.LIVE_CHAT_BADGES},${Selectors.FFZ.LIVE_CHAT_BADGES}`,
@@ -138,10 +133,7 @@ export const processLiveMessage = async (
 
         const badgeHTML = generatePronounBadge(prettyPrint);
 
-        badges.insertAdjacentHTML(
-          "beforeend",
-          badgeHTML,
-        );
+        badges.insertAdjacentHTML("beforeend", badgeHTML);
       }
     } else {
       const pronoun: string | undefined = await deprecatedAPI.getUserDeprecated(
