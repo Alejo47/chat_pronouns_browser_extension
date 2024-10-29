@@ -45,6 +45,6 @@ export class Logger implements ILogger {
   }
 }
 
-export const DefaultLogger = new Logger(LoggerLevel.DEBUG);
+export const DefaultLogger = new Logger(process.env.NODE_ENV === "development" ? LoggerLevel.DEBUG : LoggerLevel.INFO);
 
 export default DefaultLogger;

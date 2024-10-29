@@ -6,6 +6,7 @@
   "author": "Alejo Pereyra <alejo.andres.pereyra@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^22.8.2",
     "bestzip": "^2.1.7",
     "esbuild": "^0.20.0",
     "esbuild-plugin-copy": "^2.1.1",

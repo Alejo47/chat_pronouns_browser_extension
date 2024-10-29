@@ -1,6 +1,8 @@
 import { copy } from "esbuild-plugin-copy";
 import esbuild from "esbuild";
 
+const env = (process.env.NODE_ENV || "development").toLowerCase()
+
 /** @type {esbuild.BuildOptions} */
 const config = {
   entryPoints: ["src/ts/index.ts"],
@@ -16,12 +18,15 @@ const config = {
       },
     }),
   ],
+  define: {
+    "process.env.NODE_ENV": JSON.stringify(env)
+  }
 };
 
 esbuild
   .build(config)
   .then(() => {
-    console.log("⚡ Build complete! ⚡");
+    console.log(`⚡ Build complete! (${env}) ⚡`);
   })
   .catch(() => {
     process.exit(1);
