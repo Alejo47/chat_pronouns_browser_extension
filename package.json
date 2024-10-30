@@ -16,7 +16,8 @@
     "zod": "^3.22.2"
   },
   "scripts": {
-    "build": "node esbuild.mjs",
+    "build:dev": "node esbuild.mjs",
+    "build": "NODE_ENV=\"prod\" node esbuild.mjs",
     "zip": "cd dist && bestzip ../out.zip ./*"
   }
 }
