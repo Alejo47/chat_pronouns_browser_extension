@@ -2,22 +2,22 @@
 
 ``` bash
 # Install dependencies
-yarn
+pnpm i
 
 # Build
-yarn build
+pnpm build
 
 # Zip files
-yarn zip
+pnpm zip
 ```
 
 ## Development instructions
 ``` bash
 # Install dependencies
-yarn
+pnpm i
 
 # Build and watch for file changes for development
-yarn watch
+pnpm watch
 
 # Install the extension through your browser by selecting the manifest.json file 
 # or by selecting the dist folder depending on your browser
