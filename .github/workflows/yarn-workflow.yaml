@@ -4,16 +4,19 @@ on: [push]
 
 jobs:
   build-package:
-    name: 'Build package'
+    name: "Build package"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
           node-version: 20
-      - run: yarn
-      - run: yarn build
-      - uses: actions/upload-artifact@v2
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - run: pnpm i
+      - run: pnpm build
+      - uses: actions/upload-artifact@v4
         with:
           name: "Output files(${{github.sha}})"
           path: ./dist
